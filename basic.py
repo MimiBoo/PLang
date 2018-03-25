@@ -76,6 +76,9 @@ def lex(filecontents):
         elif tok == "print" or tok == "PRINT":
             tokens.append("PRINT")
             tok = ""
+        elif tok == "endif" or tok == "ENDIF":
+            tokens.append("ENDIF")
+            tok = ""
         elif tok == "if" or tok == "IF":
             tokens.append("IF")
             tok = ""
@@ -109,8 +112,8 @@ def lex(filecontents):
             string += tok
             tok = ""
     print(tokens)
-    return ''
-    # return tokens
+    # return ''
+    return tokens
 
 def evalEpression(expr):
     return eval(expr)
@@ -165,7 +168,9 @@ def getINPUT(string, varname):
 def parse(toks):
     i = 0
     while (i < len(toks)):
-        if toks[i] +" "+ toks[i+1][0:6] == "PRINT STRING" or toks[i] +" "+ toks[i+1][0:3] == "PRINT NUM" or toks[i] +" "+ toks[i+1][0:4] == "PRINT EXPR" or toks[i] +" "+ toks[i+1][0:3] == "PRINT VAR":
+        if toks[i] == "ENDIF":
+            i+=1
+        elif toks[i] +" "+ toks[i+1][0:6] == "PRINT STRING" or toks[i] +" "+ toks[i+1][0:3] == "PRINT NUM" or toks[i] +" "+ toks[i+1][0:4] == "PRINT EXPR" or toks[i] +" "+ toks[i+1][0:3] == "PRINT VAR":
             if toks[i+1][0:6] == "STRING":
                 doPRINT(toks[i+1])
             elif toks[i+1][0:3] == "NUM":
@@ -186,10 +191,20 @@ def parse(toks):
             elif toks[i+2][0:3] == "VAR":
                 doASSIGN(toks[i], getVARIABLE(toks[i+2]))
             i += 3
+
         elif toks[i] + " " + toks[i+1][0:6] + " " + toks[i+2][0:3] == "INPUT STRING VAR":
             #INPUT STRING:"" VAR:%VARIABLE
             getINPUT(toks[i+1][7:], toks[i+2][4:])
             i += 3
+
+        elif toks[i] + " " + toks[i+1][0:3] + " " + toks[i+2] + " " + toks[i+3][0:3] + " " + toks[i+4] == "IF NUM EQEQ NUM THEN":
+
+            if toks[i+1][4:] == toks[i+3][4:]:
+                pass
+            else:
+                pass
+
+            i += 5
     # print(symbols)
 
 def run():

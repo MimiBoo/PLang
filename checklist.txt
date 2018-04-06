@@ -11,5 +11,8 @@ INPUT
     -GETTING INPUT FROM THE USER      [X]
 
 CONTROL FLOW
-    -IF STATEMENTS        []
-    -LEXER RECOGNITION    []
+    -IF STATEMENTS        [X]
+    -LEXER RECOGNITION    [X]
+
+LOOPS
+    -WHILE LOOP		  [ــ]

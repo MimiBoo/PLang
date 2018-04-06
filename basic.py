@@ -26,16 +26,16 @@ def lex(filecontents):
                  tok = ""
             else:
                 tok = " "
-        # elif tok == ")":
-        #     if state == 0:
-        #         tok=""
-        #     else:
-        #         tok=")"
-        # elif tok == "(":
-        #     if state == 0:
-        #         tok =""
-        #     else:
-        #         tok = "("
+        elif tok == ")":
+            if state == 0:
+                tok=""
+            else:
+                tok=")"
+        elif tok == "(":
+            if state == 0:
+                tok =""
+            else:
+                tok = "("
         elif tok == "\n" or tok =="<EOF>":
             if expr != "" and isexpr == 1:
                 tokens.append("EXPR:" + expr)
@@ -76,8 +76,11 @@ def lex(filecontents):
         elif tok == "print" or tok == "PRINT":
             tokens.append("PRINT")
             tok = ""
-        elif tok == "endif" or tok == "ENDIF":
-            tokens.append("ENDIF")
+        elif tok == "end." or tok == "END.":
+            tokens.append("END.")
+            tok = ""
+        elif tok == "while" or tok == "WHILE":
+            tokens.append("WHILE")
             tok = ""
         elif tok == "if" or tok == "IF":
             tokens.append("IF")
@@ -111,32 +114,12 @@ def lex(filecontents):
         elif state == 1:
             string += tok
             tok = ""
-    print(tokens)
+    # print(tokens)
     # return ''
     return tokens
 
 def evalEpression(expr):
     return eval(expr)
-    # expr = "," + expr
-    #
-    # i = len(expr) -1
-    # num = ""
-    #
-    # while i >= 0:
-    #     if (expr[i] == "+" or expr[i] == "-" or expr[i] == "/" or expr[i] == "*" or expr[i] == "%"):
-    #         num = num[::-1]
-    #         num_stack.append(num)
-    #         num_stack.append(expr[i])
-    #         num = ""
-    #     elif (expr[i] == ","):
-    #         num = num[::-1]
-    #         num_stack.append(num)
-    #         num = ""
-    #     else:
-    #         num += expr[i]
-    #     i -= 1
-    # print(num_stack)
-
 
 def doPRINT(toPRINT):
     if (toPRINT[0:6] == "STRING"):
@@ -199,12 +182,18 @@ def parse(toks):
 
         elif toks[i] + " " + toks[i+1][0:3] + " " + toks[i+2] + " " + toks[i+3][0:3] + " " + toks[i+4] == "IF NUM EQEQ NUM THEN":
 
-            if toks[i+1][4:] == toks[i+3][4:]:
+            if toks[i+1][4:] == toks[i+3][4:] :#or toks[i+1][4:] < toks[i+3][4:] or toks[i+1][4:] <= toks[i+3][4:] or toks[i+1][4:] > toks[i+3][4:] or toks[i+1][4:] >= toks[i+3][4:]:
                 pass
             else:
-                pass
+                break
 
             i += 5
+        elif toks[i+3][0:5] + " " + toks[i+4][0:3] + " " + toks[i+5] + " " + toks[i+6][0:3] + " " + toks[i+7] == "WHILE VAR EQEQ NUM THEN":
+
+            if toks[i+4][4:] != toks[i+6][4:]:
+                pass
+            else:
+                break
     # print(symbols)
 
 def run():

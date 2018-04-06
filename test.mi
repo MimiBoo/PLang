@@ -1,3 +1,5 @@
-if 1 == 2 then
-    print "TRUE"
-endif
+%i = 1
+
+while %i == 5 THEN
+  print(%i)
+end.
